@@ -1,10 +1,11 @@
 import { initializeApp, cert, getApps } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
-import serviceAccount from "../serviceAccountKey.json" with { type: "json" };
 
-const credentials = process.env.FIREBASE_SERVICE_ACCOUNT
-  ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
-  : serviceAccount;
+if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
+  throw new Error("FIREBASE_SERVICE_ACCOUNT environment variable is not set");
+}
+
+const credentials = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
 const app =
   getApps().length === 0
